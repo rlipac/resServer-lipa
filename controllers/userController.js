@@ -10,7 +10,7 @@ const  Usuario = require('../models/usuario');
   const query = {estado: true };
 
   
-    if(isNaN(limite)  ){
+    if(isNaN(req.query)  ){  
           const [ totalRegisters, usuarios ] = await Promise.all([
               Usuario.countDocuments(query),
               Usuario.find(query)
