@@ -3,7 +3,7 @@ const Usuario = require("../models/usuario");
 
 const esRolevalido = async (role = "") => {
   const rolExiste = await Role.findOne({ role });
-  console.log(rolExiste + "  mi rollllllll");
+ 
   if (!rolExiste) {
     throw new Error(
       `El role ${role} NO ES VALIDO PORQUE NO ESTA REGISTRADO EL LA BD`

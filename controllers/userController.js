@@ -32,10 +32,6 @@ const  Usuario = require('../models/usuario');
         usuarios
       })
     } 
-   
-    
-        
- 
 }
 
 const userUpdate = async  (req, res = response) => {
@@ -47,11 +43,11 @@ const userUpdate = async  (req, res = response) => {
     const salt = bcrypt.genSaltSync();
     resto.password = bcrypt.hashSync( password, salt );
   }
-  const usuario = await Usuario.findByIdAndUpdate( id, resto );
+  const usuario = await Usuario.findByIdAndUpdate( id, resto, {new:true} ); // new true para que me devuelva el usuaio actualizado
     
   res.status(200).json({
     msg: 'PUT - API - Conctroller',
-    resto
+    usuario
   });
 }
 
@@ -82,14 +78,18 @@ const userSave = async (req , res = response) => {
 
 const userDelete = async (req= request, res = response) => {
   const { id } = req.params;
+
+  const uid = req.uid;// cambiando el _id del la bd por uid del token
   // BORRADO FISICO DE LA DB
 //  const userDelete = await Usuario.findByIdAndDelete(id);
 // borrado logico para el frontend
-
+ const usuarioUatenticado = req.usuario;
 const userDelete = await Usuario.findByIdAndUpdate( id, {estado: false} );
   res.status(200).json({
-    msg: 'ESTE USUARIO A SIDO BORRADO DE LA LISTA',
-    userDelete
+   
+    userDelete,
+    usuarioUatenticado
+   
   });
 }
 

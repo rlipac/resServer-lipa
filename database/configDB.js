@@ -11,11 +11,11 @@ const dbConnection = async () => {
             useCreateIndex: true,
             useFindAndModify: false
         })
-        console.log(' ==>> BASE DE DATOS CONECTADA ');
+        console.log(' ==>> BASE DE DATOS CONECTADA '.blue.bgBrightWhite);
       
     } catch (error) {
-      console.log('Error en la BD codigo ==> ' + err);
-      throw new Error(`Error al Levantar la Base de Datos ==>>>`);
+      console.log(`\n Error en la BD codigo ==>  ${error}`.red);
+      throw new Error(`Error al Levantar la Base de Datos ==>>>\n`.red );
       
     }
 
