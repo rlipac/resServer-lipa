@@ -46,7 +46,7 @@ class Server {
     }
 
     routes(){
-     this.app.use(this.authPath, this.authRoutes)
+      this.app.use(this.authPath, this.authRoutes)
       this.app.use(this.usersPath, this.userRoutes);
     }
     listen(){
