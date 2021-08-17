@@ -4,8 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": " app.js",
-    "dev": "nodemon node app.js"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
