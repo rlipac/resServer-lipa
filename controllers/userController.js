@@ -36,7 +36,7 @@ const  Usuario = require('../models/usuario');
 
 const userUpdate = async  (req, res = response) => {
   const { id } = req.params;
-  const { _id, password, google,  ...resto } = req.body;
+  const { _id, password, google, ...resto } = req.body;
   // TODO validar contra base de datos
   if( password ){
     // encriptar contraseña
@@ -79,12 +79,13 @@ const userSave = async (req , res = response) => {
 const userDelete = async (req= request, res = response) => {
   const { id } = req.params;
 
-  const uid = req.uid;// cambiando el _id del la bd por uid del token
+    const uid = req.uid;// cambiando el _id del la bd por uid del token
   // BORRADO FISICO DE LA DB
 //  const userDelete = await Usuario.findByIdAndDelete(id);
 // borrado logico para el frontend
  const usuarioUatenticado = req.usuario;
 const userDelete = await Usuario.findByIdAndUpdate( id, {estado: false} );
+
   res.status(200).json({
    
     userDelete,

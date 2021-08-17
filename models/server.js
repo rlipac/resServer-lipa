@@ -8,11 +8,21 @@ class Server {
       this.port = process.env.PORT;
 
       //RUTAS
-      this.authRoutes=require('../routes/authRouter');
+      this.authRoutes= require('../routes/authRouter');
+      this.buscarRoutes= require('../routes/buscarRouter');
+      this.categoriasRoutes = require('../routes/categoriasRouter');
+      this.productosRoutes = require('../routes/productoRouter');
       this.userRoutes = require('../routes/usersRouter');
       
-      this.authPath = '/API/auth';
-      this.usersPath = '/API/users';
+
+      this.rutas = {
+        auth:  '/API/auth',
+        buscar: '/API/buscar', 
+        categorias:  '/API/categorias',
+        productos:  '/API/productos',
+        users:  '/API/users'
+      }
+     
      
 
       // conectar db
@@ -39,6 +49,7 @@ class Server {
       this.app.use( cors());
       
       // Lectura y parseo de de body
+    
       this.app.use( express.json() );
 
       // acceso directorio publico
@@ -46,8 +57,11 @@ class Server {
     }
 
     routes(){
-      this.app.use(this.authPath, this.authRoutes)
-      this.app.use(this.usersPath, this.userRoutes);
+      this.app.use(this.rutas.auth, this.authRoutes);
+      this.app.use(this.rutas.buscar, this.buscarRoutes);
+      this.app.use(this.rutas.categorias, this.categoriasRoutes);
+      this.app.use(this.rutas.productos, this.productosRoutes);
+      this.app.use(this.rutas.users, this.userRoutes);
     }
     listen(){
       this.app.listen(this.port, () => {
