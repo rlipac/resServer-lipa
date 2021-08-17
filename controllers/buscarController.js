@@ -99,7 +99,7 @@ const buscar = (req= request, res= response ) => {
             break;
         default:
             res.status(500).json({
-                msg: 'Se le olvido hacer esta busqueda'
+                msg: 'Se me olvido hacer esta busqueda sorry...'
             })
     }
 }
