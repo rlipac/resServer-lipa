@@ -70,7 +70,7 @@ const listarProductos = async (req, res = response) => {
       const { id } = req.params;
 
       console.log(req.params);
-
+        // comentarios
        const productoID = await Producto.findById(id).populate('categoria', 'nameCatego').populate('usuario', 'email');
               res.status(200).json({
                productoID,
