@@ -1,9 +1,11 @@
-const validarTodoCampos  = require('./validarCampos');
+const validarCampos  = require('./validarCampos');
 const validarRoles = require('./validarRoles');
 const validarTokens = require('./validarToken');
+const varlidarArchivos = require('./validrArchivo');
 
 module.exports = {
-  ...validarTodoCampos,
+  ...validarCampos,
   ...validarRoles,
-  ...validarTokens
+  ...validarTokens,
+  ...varlidarArchivos
 }

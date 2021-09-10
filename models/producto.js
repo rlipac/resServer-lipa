@@ -28,7 +28,8 @@ const ProductoSchema = Schema({
         required: [ true, 'El nombre es de la categoria  ==> modelo producto']
       },
       descripcion: { type: String },
-      disponible: { type: Boolean, default: true }
+      disponible: { type: Boolean, default: true },
+      images: { type: String }
 });
 
 ProductoSchema.methods.toJSON = function(){
