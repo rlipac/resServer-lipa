@@ -1,43 +1,54 @@
+const { response, request } = require('express');
 const { parse } = require("dotenv");
-const { response, request } = require("express");
 const { body } = require("express-validator");
+const nodemon = require("nodemon");
+//Modelos
 const { Producto } = require("../models");
 const { Categoria } = require("../models");
 
 
 
 const crearProducto = async (req, res = response) => {
+ 
   
-    const { estado, usuario,  ...body } = req.body;
-    const catego = body.nameCatego.toUpperCase();
-    console.log(catego + " 1");
+    const { nameProducto, categoria, id_usuario, precio, estado, images, descripcion} = req.body;
+    const catego = categoria.toUpperCase();
+    const producto = nameProducto.toUpperCase();
+    console.log('==>  ', catego)
+  
 
-    const categoriaDB = await Categoria.findOne({ nameCatego: catego });
-    if (!categoriaDB) {
+    const categoriaDB = await Categoria.find({ nameCatego: catego });
+    if (!categoriaDB || categoriaDB =="") {
       return res.status(404).json({
-        msg: ` La categoria ${body.nameCatego} no existe`
+        msg: ` La categoria ${categoria} no existe`
       });
      
     }
-    console.log(categoriaDB + " 2 ");
-
+    console.log('mi categoria ==> ', categoriaDB)
+    const nombreCategoria = categoriaDB.map(function(cate) {
+      return cate._id;
+  });
+   
+  console.log(nombreCategoria);
+   
     const productoDB = await Producto.findOne({
-      nameProducto: body.nameProducto,
+      nameProducto: producto
     });
     if (productoDB) {
       res.status(401).json({
-        msg: " El producto ya EXISTE",
+        msg: `El producto  ${nameProducto}  ya EXISTE`,
       });
     }
 
-//     console.log(req.usuario + " <<==");
 
      const data = {
-      ...body,
-      categoria:categoriaDB._id,
-      nameProducto: body.nameProducto.toUpperCase(),
-      usuario: req.usuario.id,
+      categoria: nombreCategoria,
+      nameProducto: nameProducto.toUpperCase(),
+      usuario: id_usuario,
+      images:images
+      
     };
+     console.log(data);
     const nuevoProducto = new Producto(data);
     await nuevoProducto.save();
     res.status(201).json({
@@ -48,7 +59,7 @@ const crearProducto = async (req, res = response) => {
  };
 
 const listarProductos = async (req, res = response) => {
-  const { limite=5 , desde = 0, pagina = 1 } = req.query;
+  const { limite=0 , desde = 0, pagina = 1 } = req.query;
   const query = { estado: true };
 
   const [totalProductos, productos] = await Promise.all([

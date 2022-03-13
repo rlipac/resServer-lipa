@@ -7,25 +7,29 @@ cloudinary.config( process.env.CLOUDINARY_URL);
 const { response, request } = require('express');
 
 
-const { subirArchivo } = require('../helpers');
+ const { subirArchivo } = require('../helpers');
 const { Usuario, Producto } = require('../models');
 const { collection } = require('../models/usuario');
 
 
-const cargarArchivo = async (req = request, res = response) => {
+const cargarArchivo = async (req, res = response) => {
+  const { archivo } = req.files;
   const { carpeta } = req.body;
   const nombre = await subirArchivo(req.files, undefined, carpeta); // undefine es para que carguen permita las extensiones antes definidas y carpeta es el noobre de carpeta que se define en el body por el usuario
-
+  console.log(req.files)
   res.json({
+    msg:'hola subur archivo',
     nombre
   })
+  console.log(nombre)
 
 }
 
 
 const actualizarImagen = async (req, res = response) => {
-
+ 
   const { coleccion, id } = req.params;
+  
   let modelo;
   switch (coleccion) {
     case 'usuarios':
@@ -45,13 +49,17 @@ const actualizarImagen = async (req, res = response) => {
       }
       break;
     default:
+      return res.status(500).json({
+        msg: ` validar return `
+      });
       break;
   }
+  console.log('==> ', modelo)
 
-  // limpiar imagenes previas
+//   // limpiar imagenes previas
 
   if( modelo.images ){
-    // ha que borrar las iagenes previas del servidor local
+    // ha que borrar las imagenes previas del servidor local
     const pathImagen = path.join( __dirname, '../uploads', coleccion, modelo.images);
      if( fs.existsSync( pathImagen ) ) { // busca la iagen en la ruta  pathImagen
          fs.unlinkSync( pathImagen ); // elimina la imagen en la ruta  pathImagen
@@ -63,12 +71,15 @@ const actualizarImagen = async (req, res = response) => {
     await modelo.save();
 
   res.json(modelo)
+  console.log('cargando imagem.....');
 }
 
 
 const actualizarImagenNube = async (req, res = response) => {
+ 
 
   const { coleccion, id } = req.params;
+ 
   let modelo;
   switch (coleccion) {
     case 'usuarios':
@@ -91,7 +102,7 @@ const actualizarImagenNube = async (req, res = response) => {
       break;
   }
 
-  // limpiar imagenes previas
+//   // limpiar imagenes previas
 
   if( modelo.images ){
    // cortamos la ruta completa de la imagen para asi poder obtener el NombreId de la imagen
@@ -165,5 +176,5 @@ module.exports = {
   cargarArchivo,
   actualizarImagen,
   obtenerImagen,
-  actualizarImagenNube
+ actualizarImagenNube
 }

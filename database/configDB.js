@@ -4,13 +4,15 @@ const mongoose = require('mongoose');
 const dbConnection = async () => {
 
     try {
+        await mongoose.connect(process.env.MONGODB_CNN_LOCAL);
 
-        await mongoose.connect(process.env.MONGODB_CNN, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-            useCreateIndex: true,
-            useFindAndModify: false
-        })
+
+        // await mongoose.connect(process.env.MONGODB_CNN_LOCAL, { // codigo no soportado
+        //     useNewUrlParser: true,
+        //     useUnifiedTopology: true,
+        //     useCreateIndex: true,
+        //     useFindAndModify: false
+        // })
         console.log(' ==>> BASE DE DATOS CONECTADA '.blue.bgBrightWhite);
       
     } catch (error) {

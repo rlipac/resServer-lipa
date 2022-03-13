@@ -20,18 +20,17 @@ const validarJWT = async (req=request, res= response, next) =>{
     // req.uid = uid;
     const usuario = await Usuario.findById(uid);
   
-    if( !usuario ){
+    if( !usuario || !usuario.estado  ){
       return res.status(401).json({
         msg: ' EL USUARIO NO  EXISTE'
       })
+    }else{
+      
+      req.body.id_usuario = uid; // mandamos al body el id del usuario
+     // console.log('usuario id == =>> ',uid)
     }
 
-    if(!usuario.estado ){
-      return res.status(401).json({
-        msg: ' EL USUARIO NO ESTA ACTIVO '
-      })
-    }
-
+  
     req.usuario = usuario; // contiene los datos del usuario devuelts de la peticion request
    // console.log(uid);
     next();

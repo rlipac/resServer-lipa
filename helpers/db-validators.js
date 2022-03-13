@@ -6,7 +6,7 @@ const esRolevalido = async (role = "") => {
  
   if (!rolExiste) {
     throw new Error(
-      `El role ${role} NO ES VALIDO PORQUE NO ESTA REGISTRADO EL LA BD`
+      `El role ${role} NO ES VALIDO PORQUE NO ESTA REGISTRADO EL LA BD...ok`
     );
   }
 };
@@ -22,7 +22,7 @@ const  usuarioIdExiste = async (id) => {
   // verificar su el id existe
   const userIdExiste =await Usuario.findById(id);
   if(!userIdExiste){
-    throw new Error(`EL id ${id}  No EXISTE... `);
+    throw new Error(`EL id ${id}  el usuario no existe ..desde helpers... `);
   }
  
 };

@@ -13,10 +13,12 @@ const crearCategoria = async (req, res = response) =>{
     })
   }
 // generamos la data a guardar
+  
   const data = { 
-    nameCatego,
+    nameCatego: nameCatego.toUpperCase(),
     usuario: req.usuario._id
   }
+  console.log(`categoria =>> ${data.nameCatego}`)
 
   const categoria = new Categoria( data );
   // guardamos en la BD
@@ -29,7 +31,7 @@ const crearCategoria = async (req, res = response) =>{
  }
 
  const listarCategorias = async (req, res= response) =>{
-  const  { limite =3, desde =0, pagina=1 } = req.query;
+  const  { limite, desde =0, pagina=1 } = req.query;
   const query = {estado: true };
 
       const [ totalCategorias, categorias ] = await Promise.all([
